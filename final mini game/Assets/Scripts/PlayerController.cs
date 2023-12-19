@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float forwardInput;
     private Rigidbody playerRb;
     private AudioSource playerAudio;
+    private GameManager gameManager;
 
 
     // Start is called before the first frame update
@@ -20,16 +21,21 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         playerAudio = GetComponent<AudioSource>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        forwardInput = Input.GetAxis("Vertical");
+        if(gameManager.isGameActive)
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+            forwardInput = Input.GetAxis("Vertical");
 
-        Vector3 moveDirection = new Vector3(horizontalInput, 0, forwardInput);
-        playerRb.AddForce(moveDirection * speed);
+            Vector3 moveDirection = new Vector3(horizontalInput, 0, forwardInput);
+            playerRb.AddForce(moveDirection * speed);
+        }
+
     }
 
     void OnTriggerEnter(Collider other)
